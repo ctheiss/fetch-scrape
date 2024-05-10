@@ -1,0 +1,33 @@
+{
+  "name": "fetch-swarm",
+  "version": "1.0.0",
+  "description": "A no-dependency wrapper to global fetch that adds concurrency and significant performance gains. This library is tuned for hitting a server many times and is dead-simple to use.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ctheiss/fetch-swarm.git"
+  },
+  "keywords": [
+    "fetch",
+    "threshhold",
+    "throttle",
+    "scraping",
+    "connection pooling",
+    "retry"
+  ],
+  "author": "Corey Theiss <corey@exploringsolutions.com> (https://github.com/ctheiss)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ctheiss/fetch-swarm/issues"
+  },
+  "homepage": "https://github.com/ctheiss/fetch-swarm#readme",
+  "devDependencies": {
+    "chai": "^5.1.0",
+    "mocha": "^10.4.0",
+    "standard": "^17.1.0"
+  }
+}
