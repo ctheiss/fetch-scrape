@@ -58,18 +58,74 @@ beforeEach(function () {
   this.currentTest.response_timer = new Timer()
 })
 
+describe('connection', function () {
+  it('should create a connection with default values', async function () {
+    const conn = await Connection.create()
+    expect(conn.concurrency).to.equal(2)
+    expect(conn.minMsBetweenRequests).to.equal(150)
+    expect(conn.timeoutMs).to.equal(0)
+    expect(conn.retry).to.equal(0)
+  })
+
+  it('should create a connection with given parameters', async function () {
+    const conn = await Connection.create({
+      concurrency: 3,
+      minMsBetweenRequests: 100,
+      timeoutMs: 5000,
+      retry: 2
+    })
+    expect(conn.concurrency).to.equal(3)
+    expect(conn.minMsBetweenRequests).to.equal(100)
+    expect(conn.timeoutMs).to.equal(5000)
+    expect(conn.retry).to.equal(2)
+  })
+
+  it('should not be possible to instantiate via new', async function () {
+    try {
+      const conn = new Connection()
+      expect.fail(conn)
+    } catch (err) {
+      expect(err).to.be.a('error').with.property('message', 'The constructor is not intended to be used; use Connection.create instead')
+    }
+  })
+
+  it('should not be possible change parameters after creation', async function () {
+    const conn = await Connection.create()
+
+    try {
+      conn.concurrency = 2
+      expect.fail()
+    } catch (err) {}
+
+    try {
+      conn.minMsBetweenRequests = 2
+      expect.fail()
+    } catch (err) {}
+
+    try {
+      conn.timeoutMs = 2
+      expect.fail()
+    } catch (err) {}
+
+    try {
+      conn.retry = 2
+      expect.fail()
+    } catch (err) {}
+  })
+})
+
 describe('one (basic)', function () {
   this.timeout(10000)
   this.slow(5000)
 
   it('should execute one fetch', async function () {
-    const conn = new Connection()
+    const conn = await Connection.create()
     this.test.response_timer.add(await conn.one('req:200/moop1/500'))
     this.test.response_timer.validate('res:200/moop1/500')
   })
 
   it('should execute two fetches serially', async function () {
-    const conn = new Connection()
+    const conn = await Connection.create()
     this.test.response_timer.add(await conn.one('req:200/moop1/600'))
     this.test.response_timer.add(await conn.one('req:200/moop2/400'))
 
@@ -80,7 +136,7 @@ describe('one (basic)', function () {
   })
 
   it('should execute five fetches serially', async function () {
-    const conn = new Connection()
+    const conn = await Connection.create()
     this.test.response_timer.add(await conn.one('req:200/moop1/300'))
     this.test.response_timer.add(await conn.one('req:200/moop2/300'))
     this.test.response_timer.add(await conn.one('req:200/moop3/300'))
@@ -95,6 +151,16 @@ describe('one (basic)', function () {
       'res:200/moop5/1500'
     ])
   })
+
+  it('should handle a network error', async function () {
+    const conn = await Connection.create()
+    try {
+      await conn.one('req:999/moop1/300')
+      expect.fail()
+    } catch (err) {
+      expect(err).to.be.an('error').with.property('message', 'moop1')
+    }
+  })
 })
 
 describe('swarm (basic)', function () {
@@ -102,14 +168,14 @@ describe('swarm (basic)', function () {
   this.slow(5000)
 
   it('should execute a swarm of zero', async function () {
-    const conn = new Connection()
+    const conn = await Connection.create()
     for await (const response of conn.swarm([])) {
       expect.fail(response)
     }
   })
 
   it('should execute a swarm of one', async function () {
-    const conn = new Connection()
+    const conn = await Connection.create()
     for await (const response of conn.swarm(['req:200/moop1/300'])) {
       this.test.response_timer.add(response)
     }
@@ -117,7 +183,7 @@ describe('swarm (basic)', function () {
   })
 
   it('should execute a swarm of two concurrently', async function () {
-    const conn = new Connection()
+    const conn = await Connection.create()
     for await (const response of conn.swarm(['req:200/moop1/300', 'req:200/moop2/400'])) {
       this.test.response_timer.add(response)
     }
@@ -125,7 +191,7 @@ describe('swarm (basic)', function () {
   })
 
   it('should execute a swarm of five semi-concurrently', async function () {
-    const conn = new Connection()
+    const conn = await Connection.create()
     for await (const response of conn.swarm(['req:200/moop1/700', 'req:200/moop2/300', 'req:200/moop3/300', 'req:200/moop4/500', 'req:200/moop5/200'])) {
       this.test.response_timer.add(response)
     }
