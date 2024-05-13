@@ -3,8 +3,8 @@
 A no-dependency wrapper to global fetch that adds concurrency and significant performance gains. This library is tuned for hitting a server many times and is dead-simple to use.
 
 <p align="center">
-  <a href="http://htmlpreview.github.io/?https://raw.githubusercontent.com/ctheiss/fetch-swarm/main/build/tests/mochawesome.html"><img alt="Test report" src="https://raw.githubusercontent.com/ctheiss/fetch-swarm/main/build/tests.svg"></a>
-  <a href="http://htmlpreview.github.io/?https://raw.githubusercontent.com/ctheiss/fetch-swarm/main/build/coverage/index.html"><img alt="Coverage report" src="https://raw.githubusercontent.com/ctheiss/fetch-swarm/main/build/coverage.svg"></a>
+  <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/ctheiss/fetch-swarm/main/build/tests/mochawesome.html"><img alt="Test report" src="https://raw.githubusercontent.com/ctheiss/fetch-swarm/main/build/tests.svg"></a>
+  <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/ctheiss/fetch-swarm/main/build/coverage/index.html"><img alt="Coverage report" src="https://raw.githubusercontent.com/ctheiss/fetch-swarm/main/build/coverage.svg"></a>
   <a href="https://standardjs.com"><img alt="JavaScript Style Guide" src="https://raw.githubusercontent.com/ctheiss/fetch-swarm/main/build/style.svg"></a>
   <a href="https://nodejs.org/dist/latest-v18.x/docs/api/globals.html#fetch"><img alt="Node.js v18.x docs" src="https://raw.githubusercontent.com/ctheiss/fetch-swarm/main/build/node.svg"></a>
 </p>

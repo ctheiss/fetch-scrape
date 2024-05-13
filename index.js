@@ -27,7 +27,7 @@ export class Connection {
 
   /**
    * Create a new connection.
-   * 
+   *
    * @param {Object} options
    * @param {number} [options.concurrency=2] - The maximum number of concurrent fetches
    * @param {number} [options.minMsBetweenRequests=150] - Every fetch is guaranteed to be separated by at least this many milliseconds (counting from start to start)
@@ -59,11 +59,11 @@ export class Connection {
 
   /**
    * Execute each request asynchronously.
-   * 
+   *
    * Subsequent calls to swarm() or one() on the same Connection will be prioritized over earlier calls. This is generally aligned with how fetches are processed (one fetch is inspected, which leads to more fetches whose responses are inspected… etc.)
-   * 
+   *
    * This function will try hard to finish all fetches, use stop to cancel any pending fetches and/or kill executing fetches.
-   * 
+   *
    * @param {iterable} requests
    * @param {Object} options
    * @param {boolean} [options.ordered=false] - Whether the responses are guaranteed to be in the same order as the requests
