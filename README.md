@@ -58,20 +58,18 @@ for await (const profileResponse of conn.swarm(profileUrls)) {
 ### Table of Contents
 
 *   [Connection](#connection)
-    *   [Parameters](#parameters)
     *   [swarm](#swarm)
+        *   [Parameters](#parameters)
+    *   [one](#one)
         *   [Parameters](#parameters-1)
     *   [create](#create)
         *   [Parameters](#parameters-2)
+*   [Result](#result)
+    *   [Properties](#properties)
 
 ## Connection
 
 Typically you create one connection for each server you're hitting. This object maintains session information, connection pools, fetch priorities, etc.
-
-### Parameters
-
-*   `options` &#x20;
-*   `token` &#x20;
 
 ### swarm
 
@@ -88,6 +86,14 @@ This function will try hard to finish all fetches, use stop to cancel any pendin
 
     *   `options.ordered` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Whether the responses are guaranteed to be in the same order as the requests (optional, default `false`)
 
+### one
+
+#### Parameters
+
+*   `request` &#x20;
+
+Returns **[Result](#result)**&#x20;
+
 ### create
 
 Create a new connection.
@@ -100,3 +106,14 @@ Create a new connection.
     *   `options.minMsBetweenRequests` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Every fetch is guaranteed to be separated by at least this many milliseconds (counting from start to start) (optional, default `150`)
     *   `options.timeoutMs` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Stop and fail a fetch if it has not completed after this many milliseconds; timed-out fetched may be retried depending on the other options (0 means no timeout) (optional, default `0`)
     *   `options.retry` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** Retry failed fetches this many times before throwing an error; note that (per spec) HTTP failures such as 4xx or 5xx *do not* count as failed fetches (optional, default `0`)
+
+Returns **[Connection](#connection)**&#x20;
+
+## Result
+
+Type: [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)
+
+### Properties
+
+*   `request` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** the object given to fetch (feel free to attach your own data here to make it easier to map on response)
+*   `response` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** the object responded by fetch

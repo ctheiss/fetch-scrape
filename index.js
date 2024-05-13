@@ -2,7 +2,9 @@ import assert from 'node:assert/strict'
 
 /**
  * Typically you create one connection for each server you're hitting. This object maintains session information, connection pools, fetch priorities, etc.
- * @class
+ *
+ * @class Connection
+ * @hideconstructor
  */
 export class Connection {
   static #privacy = Symbol('ensure constructor is private')
@@ -13,7 +15,6 @@ export class Connection {
   #timeoutMs = 0
   #retry = 0
 
-  /** @ignore */
   constructor (options, token) {
     if (token !== Connection.#privacy) {
       throw new TypeError('The constructor is not intended to be used; use Connection.create instead')
@@ -33,6 +34,7 @@ export class Connection {
    * @param {number} [options.minMsBetweenRequests=150] - Every fetch is guaranteed to be separated by at least this many milliseconds (counting from start to start)
    * @param {number} [options.timeoutMs=0] - Stop and fail a fetch if it has not completed after this many milliseconds; timed-out fetched may be retried depending on the other options (0 means no timeout)
    * @param {number} [options.retry=0] - Retry failed fetches this many times before throwing an error; note that (per spec) HTTP failures such as 4xx or 5xx *do not* count as failed fetches
+   * @returns {Connection}
    */
   static async create (options) {
     return new this(options, Connection.#privacy)
@@ -67,6 +69,7 @@ export class Connection {
    * @param {iterable} requests
    * @param {Object} options
    * @param {boolean} [options.ordered=false] - Whether the responses are guaranteed to be in the same order as the requests
+   * @yields {Result}
    */
   async * swarm (requests, options) {
     const it = requests[Symbol.iterator]()
@@ -93,6 +96,9 @@ export class Connection {
     }
   }
 
+  /**
+   * @returns {Result}
+   */
   async one (request) {
     const it = this.swarm([request])
     const res = await it.next()
@@ -130,3 +136,10 @@ export class Connection {
     return p
   }
 }
+
+
+/**
+ * @typedef {Object} Result
+ * @property {Object} request - the object given to fetch (feel free to attach your own data here to make it easier to map on response)
+ * @property {Object} response - the object responded by fetch
+ */
