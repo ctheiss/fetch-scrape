@@ -6,8 +6,9 @@
   "type": "module",
   "scripts": {
     "test": "c8 --reporter=text mocha --reporter=spec",
+    "docs": "documentation build ./index.js -f html -o build/docs",
     "lint": "npx standard --fix",
-    "build": "npx standard --fix && c8 --reporter=json-summary --reporter=html --reporter=text --report-dir build/coverage mocha --reporter=mochawesome --reporter-options reportDir=build/tests && node badges.js && documentation readme index.js -f md --shallow --section=API"
+    "build": "npx standard --fix && c8 --reporter=json-summary --reporter=html --reporter=text --report-dir build/coverage mocha --reporter=mochawesome --reporter-options reportDir=build/tests && node badges.js"
   },
   "repository": {
     "type": "git",

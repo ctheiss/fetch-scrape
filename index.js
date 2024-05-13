@@ -2,9 +2,6 @@ import assert from 'node:assert/strict'
 
 /**
  * Typically you create one connection for each server you're hitting. This object maintains session information, connection pools, fetch priorities, etc.
- *
- * @class Connection
- * @hideconstructor
  */
 export class Connection {
   static #privacy = Symbol('ensure constructor is private')
@@ -15,6 +12,9 @@ export class Connection {
   #timeoutMs = 0
   #retry = 0
 
+  /**
+   * @hideconstructor
+   */
   constructor (options, token) {
     if (token !== Connection.#privacy) {
       throw new TypeError('The constructor is not intended to be used; use Connection.create instead')
@@ -56,20 +56,37 @@ export class Connection {
     return this.#retry
   }
 
+
+  /**
+   * Executes a single fetch and returns the result.
+   * 
+   * @param {resource} request - The resource you wish to fetch; this can be a string, object with a stringifier, {@link https://developer.mozilla.org/en-US/docs/Web/API/URL URL object}, or {@link https://developer.mozilla.org/en-US/docs/Web/API/Request Request object}.
+   * @returns {Result} An object containing the request and response
+   */
+  async one (request) {
+    const it = this.swarm([request])
+    const res = await it.next()
+    assert.ok((await it.next()).done)
+    return res.value
+  }
+
+
   #inflight = new Map()
   #unique = 1
 
   /**
    * Execute each request asynchronously.
    *
-   * Subsequent calls to swarm() or one() on the same Connection will be prioritized over earlier calls. This is generally aligned with how fetches are processed (one fetch is inspected, which leads to more fetches whose responses are inspected… etc.)
+   * Subsequent calls to {@link Connection#swarm swarm()} or {@link Connection#one one()} on the same Connection will be prioritized over earlier calls. This is generally aligned with how fetches are processed (one fetch is inspected, which leads to more fetches whose responses are inspected… etc.)
    *
-   * This function will try hard to finish all fetches, use stop to cancel any pending fetches and/or kill executing fetches.
+   * **Hot tip:** since results are not necessarily in the same order as the requests, it is often a good idea to add identifiers right on the request objects for easier processing in the loop, without requiring complicated mapping.
+   * 
+   * This function will try hard to finish all fetches, use {@link Connection#stop stop()} to cancel any pending fetches and/or kill executing fetches.
    *
-   * @param {iterable} requests
+   * @param {iterable} requests - Any {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#the_iterable_protocol iterable} of requests; each one can be a string, object with a stringifier, {@link https://developer.mozilla.org/en-US/docs/Web/API/URL URL object}, or {@link https://developer.mozilla.org/en-US/docs/Web/API/Request Request object}.
    * @param {Object} options
    * @param {boolean} [options.ordered=false] - Whether the responses are guaranteed to be in the same order as the requests
-   * @yields {Result}
+   * @yields {Result} An object containing the request and response.
    */
   async * swarm (requests, options) {
     const it = requests[Symbol.iterator]()
@@ -96,15 +113,18 @@ export class Connection {
     }
   }
 
+
   /**
-   * @returns {Result}
+   * Stop the execution of requests early.
+   * 
+   * **Hot tip:** Killing executing fetches guarantees that there will be no more activity once this method call resolves, but it is undeterminable whether any of the killed fetches succeeded, failed, or had any server side-effects.
+   *
+   * @param {Object} options
+   * @param {boolean} [options.killExecuting=true] - In addition to canceling pending fetches, also kill any currently-executing fetches so that the response will not be returned.
    */
-  async one (request) {
-    const it = this.swarm([request])
-    const res = await it.next()
-    assert.ok((await it.next()).done)
-    return res.value
+  async stop (options) {
   }
+
 
   #bundle (request) {
     // We need to generate a unique id for each fetch,
