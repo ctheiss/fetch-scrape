@@ -51,6 +51,4 @@ for await (const profileResponse of conn.swarm(profileUrls)) {
 }
 ```
 
-<p align="center">
-  For more details, please see the documentation for the full <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/ctheiss/fetch-swarm/main/build/docs/index.html">API</a>.
-</p>
+For more details, please see the <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/ctheiss/fetch-swarm/main/build/docs/index.html">full documentation</a>.
