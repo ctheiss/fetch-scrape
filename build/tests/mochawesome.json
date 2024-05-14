@@ -5,9 +5,9 @@
     "passes": 12,
     "pending": 0,
     "failures": 0,
-    "start": "2024-05-13T16:34:48.833Z",
-    "end": "2024-05-13T16:34:53.972Z",
-    "duration": 5139,
+    "start": "2024-05-13T20:07:13.277Z",
+    "end": "2024-05-13T20:07:18.405Z",
+    "duration": 5128,
     "testsRegistered": 12,
     "passPercent": 100,
     "pendingPercent": 0,
@@ -18,7 +18,7 @@
   },
   "results": [
     {
-      "uuid": "ee56aac2-21cc-4f4e-b49b-e3948f1c280e",
+      "uuid": "f8ac89c8-81eb-4724-abe1-c6dd52e81857",
       "title": "",
       "fullFile": "",
       "file": "",
@@ -36,8 +36,8 @@
           "context": null,
           "code": "this.currentTest.response_timer = new Timer()",
           "err": {},
-          "uuid": "e33f5849-86bd-4f27-a66b-d36c9d88d832",
-          "parentUUID": "ee56aac2-21cc-4f4e-b49b-e3948f1c280e",
+          "uuid": "e3b592d8-7c51-4935-8610-cd53b1907f5f",
+          "parentUUID": "f8ac89c8-81eb-4724-abe1-c6dd52e81857",
           "isHook": true,
           "skipped": false
         }
@@ -46,7 +46,7 @@
       "tests": [],
       "suites": [
         {
-          "uuid": "6b97e571-b915-4fc1-8830-a525d8ef4aa1",
+          "uuid": "91c87286-2402-4f59-a661-7febc3ea43f8",
           "title": "connection",
           "fullFile": "/home/corey/fetch-swarm/test/test.js",
           "file": "/test/test.js",
@@ -66,8 +66,8 @@
               "context": null,
               "code": "const conn = await Connection.create()\nexpect(conn.concurrency).to.equal(2)\nexpect(conn.minMsBetweenRequests).to.equal(150)\nexpect(conn.timeoutMs).to.equal(0)\nexpect(conn.retry).to.equal(0)",
               "err": {},
-              "uuid": "b83cc01e-fd04-46eb-9b8f-e2909386d9bd",
-              "parentUUID": "6b97e571-b915-4fc1-8830-a525d8ef4aa1",
+              "uuid": "3d0fd33b-b3cc-4792-92f0-5280af0b7038",
+              "parentUUID": "91c87286-2402-4f59-a661-7febc3ea43f8",
               "isHook": false,
               "skipped": false
             },
@@ -84,8 +84,8 @@
               "context": null,
               "code": "const conn = await Connection.create({\n  concurrency: 3,\n  minMsBetweenRequests: 100,\n  timeoutMs: 5000,\n  retry: 2\n})\nexpect(conn.concurrency).to.equal(3)\nexpect(conn.minMsBetweenRequests).to.equal(100)\nexpect(conn.timeoutMs).to.equal(5000)\nexpect(conn.retry).to.equal(2)",
               "err": {},
-              "uuid": "ab515767-7433-4531-a6f8-5c29dae5b69f",
-              "parentUUID": "6b97e571-b915-4fc1-8830-a525d8ef4aa1",
+              "uuid": "2ce4743e-2aed-435d-b9b4-37f47915a04e",
+              "parentUUID": "91c87286-2402-4f59-a661-7febc3ea43f8",
               "isHook": false,
               "skipped": false
             },
@@ -102,8 +102,8 @@
               "context": null,
               "code": "try {\n  const conn = new Connection()\n  expect.fail(conn)\n} catch (err) {\n  expect(err).to.be.a('error').with.property('message', 'The constructor is not intended to be used; use Connection.create instead')\n}",
               "err": {},
-              "uuid": "28c80e98-4e1c-429c-a23b-45b4259b759b",
-              "parentUUID": "6b97e571-b915-4fc1-8830-a525d8ef4aa1",
+              "uuid": "6d6738df-9b62-4d17-879b-7935bf5f7095",
+              "parentUUID": "91c87286-2402-4f59-a661-7febc3ea43f8",
               "isHook": false,
               "skipped": false
             },
@@ -120,18 +120,18 @@
               "context": null,
               "code": "const conn = await Connection.create()\ntry {\n  conn.concurrency = 2\n  expect.fail()\n} catch (err) {}\ntry {\n  conn.minMsBetweenRequests = 2\n  expect.fail()\n} catch (err) {}\ntry {\n  conn.timeoutMs = 2\n  expect.fail()\n} catch (err) {}\ntry {\n  conn.retry = 2\n  expect.fail()\n} catch (err) {}",
               "err": {},
-              "uuid": "ea9e1e7b-c345-4001-a2eb-1280daa57fe2",
-              "parentUUID": "6b97e571-b915-4fc1-8830-a525d8ef4aa1",
+              "uuid": "5792863e-98b3-4b6d-89b3-d8b16a117d52",
+              "parentUUID": "91c87286-2402-4f59-a661-7febc3ea43f8",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "b83cc01e-fd04-46eb-9b8f-e2909386d9bd",
-            "ab515767-7433-4531-a6f8-5c29dae5b69f",
-            "28c80e98-4e1c-429c-a23b-45b4259b759b",
-            "ea9e1e7b-c345-4001-a2eb-1280daa57fe2"
+            "3d0fd33b-b3cc-4792-92f0-5280af0b7038",
+            "2ce4743e-2aed-435d-b9b4-37f47915a04e",
+            "6d6738df-9b62-4d17-879b-7935bf5f7095",
+            "5792863e-98b3-4b6d-89b3-d8b16a117d52"
           ],
           "failures": [],
           "pending": [],
@@ -142,7 +142,7 @@
           "_timeout": 2000
         },
         {
-          "uuid": "59a73459-519e-45d9-9779-d933ce70827e",
+          "uuid": "540a2fa2-30ff-409e-ac53-86821622edbb",
           "title": "one (basic)",
           "fullFile": "/home/corey/fetch-swarm/test/test.js",
           "file": "/test/test.js",
@@ -153,7 +153,7 @@
               "title": "should execute one fetch",
               "fullTitle": "one (basic) should execute one fetch",
               "timedOut": false,
-              "duration": 504,
+              "duration": 502,
               "state": "passed",
               "speed": "fast",
               "pass": true,
@@ -162,8 +162,8 @@
               "context": null,
               "code": "const conn = await Connection.create()\nthis.test.response_timer.add(await conn.one('req:200/moop1/500'))\nthis.test.response_timer.validate('res:200/moop1/500')",
               "err": {},
-              "uuid": "9c00fea5-7eb6-4f00-ad1a-e2e0d7ea7aed",
-              "parentUUID": "59a73459-519e-45d9-9779-d933ce70827e",
+              "uuid": "8d7e3374-0947-43d5-86d2-84f98f608db8",
+              "parentUUID": "540a2fa2-30ff-409e-ac53-86821622edbb",
               "isHook": false,
               "skipped": false
             },
@@ -171,7 +171,7 @@
               "title": "should execute two fetches serially",
               "fullTitle": "one (basic) should execute two fetches serially",
               "timedOut": false,
-              "duration": 1004,
+              "duration": 1002,
               "state": "passed",
               "speed": "fast",
               "pass": true,
@@ -180,8 +180,8 @@
               "context": null,
               "code": "const conn = await Connection.create()\nthis.test.response_timer.add(await conn.one('req:200/moop1/600'))\nthis.test.response_timer.add(await conn.one('req:200/moop2/400'))\nthis.test.response_timer.validate([\n  'res:200/moop1/600',\n  'res:200/moop2/1000'\n])",
               "err": {},
-              "uuid": "d3f88156-915a-4f6a-b1ae-18cd6e76d865",
-              "parentUUID": "59a73459-519e-45d9-9779-d933ce70827e",
+              "uuid": "3b6b2755-b5bb-4ebc-bc36-b152a95a901c",
+              "parentUUID": "540a2fa2-30ff-409e-ac53-86821622edbb",
               "isHook": false,
               "skipped": false
             },
@@ -189,7 +189,7 @@
               "title": "should execute five fetches serially",
               "fullTitle": "one (basic) should execute five fetches serially",
               "timedOut": false,
-              "duration": 1503,
+              "duration": 1504,
               "state": "passed",
               "speed": "fast",
               "pass": true,
@@ -198,8 +198,8 @@
               "context": null,
               "code": "const conn = await Connection.create()\nthis.test.response_timer.add(await conn.one('req:200/moop1/300'))\nthis.test.response_timer.add(await conn.one('req:200/moop2/300'))\nthis.test.response_timer.add(await conn.one('req:200/moop3/300'))\nthis.test.response_timer.add(await conn.one('req:200/moop4/200'))\nthis.test.response_timer.add(await conn.one('req:200/moop5/400'))\nthis.test.response_timer.validate([\n  'res:200/moop1/300',\n  'res:200/moop2/600',\n  'res:200/moop3/900',\n  'res:200/moop4/1100',\n  'res:200/moop5/1500'\n])",
               "err": {},
-              "uuid": "48290dd2-83cb-448c-afe4-e3f63d2bc93d",
-              "parentUUID": "59a73459-519e-45d9-9779-d933ce70827e",
+              "uuid": "c684e728-9b24-42dc-973f-e237ca672360",
+              "parentUUID": "540a2fa2-30ff-409e-ac53-86821622edbb",
               "isHook": false,
               "skipped": false
             },
@@ -216,29 +216,29 @@
               "context": null,
               "code": "const conn = await Connection.create()\ntry {\n  await conn.one('req:999/moop1/300')\n  expect.fail()\n} catch (err) {\n  expect(err).to.be.an('error').with.property('message', 'moop1')\n}",
               "err": {},
-              "uuid": "2a389519-25f9-43cc-90d9-812dc7275aa9",
-              "parentUUID": "59a73459-519e-45d9-9779-d933ce70827e",
+              "uuid": "1ae0532c-227d-431d-9c14-af41f9c03379",
+              "parentUUID": "540a2fa2-30ff-409e-ac53-86821622edbb",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "9c00fea5-7eb6-4f00-ad1a-e2e0d7ea7aed",
-            "d3f88156-915a-4f6a-b1ae-18cd6e76d865",
-            "48290dd2-83cb-448c-afe4-e3f63d2bc93d",
-            "2a389519-25f9-43cc-90d9-812dc7275aa9"
+            "8d7e3374-0947-43d5-86d2-84f98f608db8",
+            "3b6b2755-b5bb-4ebc-bc36-b152a95a901c",
+            "c684e728-9b24-42dc-973f-e237ca672360",
+            "1ae0532c-227d-431d-9c14-af41f9c03379"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 3312,
+          "duration": 3309,
           "root": false,
           "rootEmpty": false,
           "_timeout": 10000
         },
         {
-          "uuid": "a307a23c-3a13-43ba-802e-5535d6edee25",
+          "uuid": "8b04f1db-f09e-4e86-8718-5f3d989736ce",
           "title": "swarm (basic)",
           "fullFile": "/home/corey/fetch-swarm/test/test.js",
           "file": "/test/test.js",
@@ -258,8 +258,8 @@
               "context": null,
               "code": "const conn = await Connection.create()\nfor await (const response of conn.swarm([])) {\n  expect.fail(response)\n}",
               "err": {},
-              "uuid": "66ebe8f0-4a56-4f60-b623-756003368ab1",
-              "parentUUID": "a307a23c-3a13-43ba-802e-5535d6edee25",
+              "uuid": "69bc691b-a674-40b1-8ab3-c7a15424b23f",
+              "parentUUID": "8b04f1db-f09e-4e86-8718-5f3d989736ce",
               "isHook": false,
               "skipped": false
             },
@@ -267,7 +267,7 @@
               "title": "should execute a swarm of one",
               "fullTitle": "swarm (basic) should execute a swarm of one",
               "timedOut": false,
-              "duration": 302,
+              "duration": 301,
               "state": "passed",
               "speed": "fast",
               "pass": true,
@@ -276,8 +276,8 @@
               "context": null,
               "code": "const conn = await Connection.create()\nfor await (const response of conn.swarm(['req:200/moop1/300'])) {\n  this.test.response_timer.add(response)\n}\nthis.test.response_timer.validate(['res:200/moop1/300'])",
               "err": {},
-              "uuid": "80b54b59-5c5c-4fc7-a230-01a6807f3f41",
-              "parentUUID": "a307a23c-3a13-43ba-802e-5535d6edee25",
+              "uuid": "6485f89b-759c-4670-aa96-a4240f1872a3",
+              "parentUUID": "8b04f1db-f09e-4e86-8718-5f3d989736ce",
               "isHook": false,
               "skipped": false
             },
@@ -294,8 +294,8 @@
               "context": null,
               "code": "const conn = await Connection.create()\nfor await (const response of conn.swarm(['req:200/moop1/300', 'req:200/moop2/400'])) {\n  this.test.response_timer.add(response)\n}\nthis.test.response_timer.validate(['res:200/moop1/300', 'res:200/moop2/400'])",
               "err": {},
-              "uuid": "d720f500-29cc-428c-ad16-d5b512e63073",
-              "parentUUID": "a307a23c-3a13-43ba-802e-5535d6edee25",
+              "uuid": "e33beaab-90b5-455c-a126-d2340b8cb90f",
+              "parentUUID": "8b04f1db-f09e-4e86-8718-5f3d989736ce",
               "isHook": false,
               "skipped": false
             },
@@ -303,7 +303,7 @@
               "title": "should execute a swarm of five semi-concurrently",
               "fullTitle": "swarm (basic) should execute a swarm of five semi-concurrently",
               "timedOut": false,
-              "duration": 1103,
+              "duration": 1101,
               "state": "passed",
               "speed": "fast",
               "pass": true,
@@ -312,23 +312,23 @@
               "context": null,
               "code": "const conn = await Connection.create()\nfor await (const response of conn.swarm(['req:200/moop1/700', 'req:200/moop2/300', 'req:200/moop3/300', 'req:200/moop4/500', 'req:200/moop5/200'])) {\n  this.test.response_timer.add(response)\n}\nthis.test.response_timer.validate(['res:200/moop1/700', 'res:200/moop2/300', 'res:200/moop3/600', 'res:200/moop4/1100', 'res:200/moop5/900'])",
               "err": {},
-              "uuid": "71c04eb2-f127-4965-acc0-784ff7faab2b",
-              "parentUUID": "a307a23c-3a13-43ba-802e-5535d6edee25",
+              "uuid": "9ccb9a05-12f5-4a48-b9e6-2a3372d95aaa",
+              "parentUUID": "8b04f1db-f09e-4e86-8718-5f3d989736ce",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "66ebe8f0-4a56-4f60-b623-756003368ab1",
-            "80b54b59-5c5c-4fc7-a230-01a6807f3f41",
-            "d720f500-29cc-428c-ad16-d5b512e63073",
-            "71c04eb2-f127-4965-acc0-784ff7faab2b"
+            "69bc691b-a674-40b1-8ab3-c7a15424b23f",
+            "6485f89b-759c-4670-aa96-a4240f1872a3",
+            "e33beaab-90b5-455c-a126-d2340b8cb90f",
+            "9ccb9a05-12f5-4a48-b9e6-2a3372d95aaa"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 1807,
+          "duration": 1804,
           "root": false,
           "rootEmpty": false,
           "_timeout": 10000

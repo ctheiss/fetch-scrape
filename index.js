@@ -56,10 +56,9 @@ export class Connection {
     return this.#retry
   }
 
-
   /**
    * Executes a single fetch and returns the result.
-   * 
+   *
    * @param {resource} request - The resource you wish to fetch; this can be a string, object with a stringifier, {@link https://developer.mozilla.org/en-US/docs/Web/API/URL URL object}, or {@link https://developer.mozilla.org/en-US/docs/Web/API/Request Request object}.
    * @returns {Result} An object containing the request and response
    */
@@ -70,8 +69,8 @@ export class Connection {
     return res.value
   }
 
-
   #inflight = new Map()
+  #lastFetchTime = 0
   #unique = 1
 
   /**
@@ -80,7 +79,7 @@ export class Connection {
    * Subsequent calls to {@link Connection#swarm swarm()} or {@link Connection#one one()} on the same Connection will be prioritized over earlier calls. This is generally aligned with how fetches are processed (one fetch is inspected, which leads to more fetches whose responses are inspected… etc.)
    *
    * **Hot tip:** since results are not necessarily in the same order as the requests, it is often a good idea to add identifiers right on the request objects for easier processing in the loop, without requiring complicated mapping.
-   * 
+   *
    * This function will try hard to finish all fetches, use {@link Connection#stop stop()} to cancel any pending fetches and/or kill executing fetches.
    *
    * @param {iterable} requests - Any {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#the_iterable_protocol iterable} of requests; each one can be a string, object with a stringifier, {@link https://developer.mozilla.org/en-US/docs/Web/API/URL URL object}, or {@link https://developer.mozilla.org/en-US/docs/Web/API/Request Request object}.
@@ -110,13 +109,19 @@ export class Connection {
         res = await Promise.race(this.#inflight.values())
         this.#inflight.delete(res._id)
       }
+
+      // TODO: Sleep and then bundle?  What happens when a fetch completes while waiting?
+      // TODO: Inner loop completes, does outer loop restart immediately or just when context switches there?
+      // TODO: Retry
+      // TODO: Stop
+      // TODO: Timeout
+      // TODO: Performance comparison scraping GOT wikia in README
     }
   }
 
-
   /**
    * Stop the execution of requests early.
-   * 
+   *
    * **Hot tip:** Killing executing fetches guarantees that there will be no more activity once this method call resolves, but it is undeterminable whether any of the killed fetches succeeded, failed, or had any server side-effects.
    *
    * @param {Object} options
@@ -124,7 +129,6 @@ export class Connection {
    */
   async stop (options) {
   }
-
 
   #bundle (request) {
     // We need to generate a unique id for each fetch,
@@ -135,28 +139,44 @@ export class Connection {
     /* c8 ignore next */
     if (this.#unique === Number.MAX_SAFE_INTEGER) this.#unique = 1 // Pretty safe assumption
 
+    const delayMs = this.#lastFetchTime + this.#minMsBetweenRequests - Date.now()
+    let delayPromise
+    if (delayMs > 0) {
+      delayPromise = new Promise((resolve) => {
+        setTimeout(resolve, delayMs)
+      })
+    } else {
+      // No delay
+      delayPromise = Promise.resolve(true)
+    }
+
+    const conn = this
+
     // Bundle a fetch with any given data and a unique id
     const p = new Promise((resolve, reject) => {
-      fetch(request)
-        .then((response) => {
-          resolve({
-            _id,
-            request,
-            response
+      delayPromise.then(() => {
+        fetch(request)
+          .then((response) => {
+            resolve({
+              _id,
+              request,
+              response
+            })
           })
-        })
-        .catch((err) => {
-          err._id = _id
-          err.request = request
-          reject(err)
-        })
+          .catch((err) => {
+            err._id = _id
+            err.request = request
+            reject(err)
+          })
+        p.start = Date.now()
+        conn.#lastFetchTime = p.start
+      })
     })
     p._id = _id
 
     return p
   }
 }
-
 
 /**
  * @typedef {Object} Result
